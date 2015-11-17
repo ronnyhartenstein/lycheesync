@@ -350,6 +350,7 @@ class LycheeSyncer:
                         try:
                             discoveredphotos += 1
                             photo = LycheePhoto(self.conf, f, album)
+                            print "DEBUG: Photo ", photo
 
                             if not(self.dao.photoExists(photo)):
                                 if self.conf['verbose']:

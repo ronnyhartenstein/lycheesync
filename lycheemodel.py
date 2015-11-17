@@ -1,6 +1,7 @@
 import time
 import hashlib
 import os
+import sys
 import mimetypes
 from PIL import Image
 from PIL.ExifTags import TAGS
@@ -179,7 +180,11 @@ class LycheePhoto:
                 if exifinfo is not None:
                     for tag, value in exifinfo.items():
                         decode = TAGS.get(tag, tag)
-                        # print tag, decode, value
+                        if decode != "MakerNote":
+                            try:
+                                print "DEBUG ", tag, ": ",decode, " = ", value
+                            except:
+                                print "DEBUG ", tag, ": EXCEPTION ", sys.exc_info()[0]
                         # if decode != "MakerNote":
                         #    print decode, value
                         if decode == "Orientation":
@@ -249,8 +254,12 @@ class LycheePhoto:
         res += "thumbUrl:" + str(self.thumbUrl) + "\n"
         res += "srcfullpath:" + str(self.srcfullpath) + "\n"
         res += "destfullpath:" + str(self.destfullpath) + "\n"
-        res += "sysdate:" + self._sysdate + "\n"
-        res += "systime:" + self.systime + "\n"
+        try:
+            res += "sysdate:" + self._sysdate + "\n"
+            res += "systime:" + self.systime + "\n"
+        except UnicodeDecodeError:
+            print "IGNORE ERR UnicodeDecodeError for _sysdate"
+
         res += "checksum:" + self.checksum + "\n"
         res += "Exif: \n" + str(self.exif) + "\n"
         return res
