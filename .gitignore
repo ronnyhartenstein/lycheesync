@@ -39,3 +39,6 @@ myconf.json
 testconf.json
 test/
 profile.py
+
+# configs
+conf_*.json
